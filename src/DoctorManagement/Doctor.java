@@ -5,14 +5,20 @@
  */
 package DoctorManagement;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
  * @author Admin
  */
-public class Doctor {
-    private int id;
+public class Doctor implements Comparator<Doctor> {
+    private static final AtomicInteger count = new AtomicInteger(0); 
+    private final int id;
     private String name;
     private Date dob;
     private String specialization;
@@ -20,14 +26,17 @@ public class Doctor {
     private String email;
     private String mobile;
 
-    public Doctor(int id, String name, Date dob, String specialization, int availability, String email, String mobile) {
-        this.id = id;
+    public Doctor(String name, Date dob, String specialization, int availability, String email, String mobile) {
+        id = count.incrementAndGet();
         this.name = name;
         this.dob = dob;
         this.specialization = specialization;
         this.availability = availability;
         this.email = email;
         this.mobile = mobile;
+    }
+    public Doctor() {
+        id = count.incrementAndGet();
     }
 
     public String getSpecialization() {
@@ -62,14 +71,8 @@ public class Doctor {
         this.mobile = mobile;
     }
   
-    
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -86,5 +89,16 @@ public class Doctor {
 
     public void setDob(Date dob) {
         this.dob = dob;
+    }
+    
+    @Override
+    public int compare(Doctor d1, Doctor d2) {
+        return d1.getDob().getYear() - d2.getDob().getYear();
+    }
+    @Override
+    public String toString() {
+        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
+        return "Doctor {" + "id=" + id + ", name=" + name + ", dob=" + f.format(dob) + ", specialization=" + specialization + ", availability=" + availability + ", email=" + email + ", mobile=" + mobile + '}';
     }
 }
