@@ -5,11 +5,9 @@
  */
 package DoctorManagement;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -51,37 +49,36 @@ public class Validate {
             }
         }
     }
-
-    //allow user input username
-    public static String checkInputUsername() {
-        System.out.print("Enter username: ");
-        //loop until user input correct
-        while (true) {
-            String result = checkInputString();
-            if (result.matches("^([\\w\\d]+){5,}$")) {
-                return result;
+    
+    public static Date checkInputDate() throws ParseException
+    {
+        while(true)
+        {
+            String input = checkInputString();
+            try
+            {
+               Date dob = new SimpleDateFormat("dd/MM/yyyy").parse(input); 
+               return dob;
             }
-            System.err.println("You must enter least at 5 character, and no space!");
-            System.out.print("Enter again: ");
+            catch(ParseException e)
+            {
+                System.err.println("Invalid date!");
+                System.out.println("Enter again (dd/MM/yyyy): ");
+            }
         }
     }
-
-    //allow user input password
-    public static String checkInputPassword() {
-        System.out.print("Enter password: ");
-        //loop until user input correct
-        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[!\"#$%&'()*+,-./\\\\\\[\\]:;<=>?@^_`{|}~])(?=\\S+$).{8,}$";
-        while (true) {
-            String result = checkInputString();
-            if (result.matches(regex)) {
-                return result;
+    
+    public static String checkInputByRegex(String regex, String err)
+    {
+        while(true)
+        {
+            String input = checkInputString();
+            if(input.matches(regex))
+            {
+                return input;
             }
-            System.err.println("You must enter least at 8 character, no space and must contain at least 1 special character!");
-            System.out.print("Enter again: ");
+            System.err.println(err);
+            System.out.println("Enter again: ");
         }
     }
-}
-
-class TestValidate {
-
 }

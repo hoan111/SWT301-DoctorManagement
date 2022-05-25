@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -42,19 +41,19 @@ public class Manage {
         String name = Validate.checkInputString();
 
         System.out.println("Enter dob");
-        Date dob = new SimpleDateFormat("dd/MM/yyyy").parse(Validate.checkInputString());
+        Date dob = Validate.checkInputDate();
 
         System.out.println("Enter spec: ");
-        String spec = Validate.checkInputString();
+        String spec = Validate.checkInputByRegex("^[\\w\\d\\W]{0,50}$", "Spec not longer than 50 characters");
 
         System.out.println("Enter availability: ");
         int availability = Validate.checkInputIntLimit(0, 4);
 
         System.out.println("Enter email: ");
-        String email = Validate.checkInputString();
+        String email = Validate.checkInputByRegex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", "Invalid email!");
 
         System.out.println("Enter mobile: ");
-        String mobile = Validate.checkInputString();
+        String mobile = Validate.checkInputByRegex("^[0-9]{10}$", "Invalid phone number");;
 
         Doctor d = new Doctor(name, dob, spec, availability, email, mobile);
         doctors.add(d);
@@ -62,25 +61,25 @@ public class Manage {
 
     public void editDoctor() throws ParseException {
         System.out.println("Enter ID doctor you want to edit: ");
-        int id = Validate.checkInputIntLimit(0, Integer.MAX_VALUE);
+        int id = Validate.checkInputIntLimit(1, Integer.MAX_VALUE);
 
         System.out.println("Enter doctor name: ");
         String name = Validate.checkInputString();
 
         System.out.println("Enter dob");
-        Date dob = new SimpleDateFormat("dd/MM/yyyy").parse(Validate.checkInputString());
+        Date dob = Validate.checkInputDate();
 
         System.out.println("Enter spec: ");
-        String spec = Validate.checkInputString();
+        String spec = Validate.checkInputByRegex("^[\\w\\d\\W]{0,50}$", "Spec not longer than 50 characters");
 
         System.out.println("Enter availability: ");
         int availability = Validate.checkInputIntLimit(0, 4);
 
         System.out.println("Enter email: ");
-        String email = Validate.checkInputString();
+        String email = Validate.checkInputByRegex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", "Invalid email!");
 
         System.out.println("Enter mobile: ");
-        String mobile = Validate.checkInputString();
+        String mobile = Validate.checkInputByRegex("^[0-9]{10}$", "Invalid phone number");;
 
         Doctor d = new Doctor(name, dob, spec, availability, email, mobile);
         doctors.set(id - 1, d);
